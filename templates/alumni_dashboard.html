@@ -1,23 +1,26 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h2>Alumni Dashboard</h2>
+<link rel="stylesheet" href="{% static 'css/alumni_dashboard.css' %}">
+
+<h2 class="dashboard-title">Alumni Dashboard</h2>
 
 <h3>Mentorship Requests</h3>
 
 {% for req in requests %}
-    <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+    <div class="request-card">
         <p>
             <strong>Student:</strong> {{ req.student.username }} <br>
             <strong>Status:</strong> {{ req.status }}
         </p>
 
         {% if req.status == 'pending' %}
-            <a href="{% url 'accept_mentorship' req.id %}">
+            <a class="accept-link" href="{% url 'accept_mentorship' req.id %}">
                 Accept Mentorship
             </a>
         {% else %}
-            <p>✔ Mentorship Accepted</p>
+            <p class="accepted">✔ Mentorship Accepted</p>
         {% endif %}
     </div>
 {% empty %}
