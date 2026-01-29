@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{% url 'student_projects' %}">View Projects</a>
+<h2>Available Projects</h2>
+
+{% for project in projects %}
+  <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+    <h4>{{ project.title }}</h4>
+    <p>{{ project.description }}</p>
+    <p><strong>Faculty:</strong> {{ project.faculty.username }}</p>
+
+    <a href="{% url 'join_project' project.id %}">Join Project</a>
+  </div>
+{% empty %}
+  <p>No projects available.</p>
+{% endfor %}
+{% endblock %}  

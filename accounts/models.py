@@ -37,3 +37,13 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+    
+class MentorshipRequest(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_requests')
+    alumni = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_requests')
+    status = models.CharField(
+        max_length=20,
+        choices=[('pending','Pending'), ('accepted','Accepted')],
+        default='pending'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)

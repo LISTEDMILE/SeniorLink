@@ -1,5 +1,27 @@
 {% extends 'base.html' %}
+
 {% block content %}
 <h2>Alumni Dashboard</h2>
-<h1>lskdflkdsjf</h1>
-{% endblock %} 
+
+<h3>Mentorship Requests</h3>
+
+{% for req in requests %}
+    <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+        <p>
+            <strong>Student:</strong> {{ req.student.username }} <br>
+            <strong>Status:</strong> {{ req.status }}
+        </p>
+
+        {% if req.status == 'pending' %}
+            <a href="{% url 'accept_mentorship' req.id %}">
+                Accept Mentorship
+            </a>
+        {% else %}
+            <p>✔ Mentorship Accepted</p>
+        {% endif %}
+    </div>
+{% empty %}
+    <p>No mentorship requests yet.</p>
+{% endfor %}
+
+{% endblock %}
