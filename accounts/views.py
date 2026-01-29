@@ -3,6 +3,9 @@ from django.shortcuts import render, redirect
 from .models import Profile
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from .models import Project
+
+
 def register_view(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -47,3 +50,20 @@ def alumni_dashboard(request):
 @login_required
 def faculty_dashboard(request):
     return render(request, 'faculty_dashboard.html')
+
+
+
+@login_required
+def create_project(request):
+    if request.method == "POST":
+        title = request.POST['title']
+        description = request.POST['description']
+
+        Project.objects.create(
+            title=title,
+            description=description,
+            faculty=request.user
+        )
+        return redirect('faculty_dashboard')
+
+    return render(request, 'create_project.html')
