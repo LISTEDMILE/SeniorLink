@@ -1,10 +1,11 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .models import Project, MentorshipRequest, Profile
+from .models import Project, MentorshipRequest, Profile , StudentProfile, AlumniProfile, FacultyProfile
+from .forms import StudentProfileForm, FacultyProfileForm, AlumniProfileForm
 from .decorators import role_required
 
 def home(request):
@@ -22,18 +23,17 @@ def register_view(request):
             messages.error(request, "Username already exists")
             return redirect('register')
 
-        user = User.objects.create_user(
-            username=username,
-            password=password
-        )
+        user = User.objects.create_user(username=username, password=password)
 
-        Profile.objects.create(user=user, role=role)
+# profile already created by signal
+        user.profile.role = role
+        user.profile.save()
 
         return redirect('login')
 
     return render(request, 'register.html')
 
-
+ 
 # ---------------- LOGIN ----------------
 def login_view(request):
     if request.method == "POST":
@@ -157,3 +157,65 @@ def faculty_projects(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+@login_required
+def edit_profile(request):
+    profile = request.user.profile
+
+    # STUDENT
+    if profile.role == 'student':
+        instance, created = StudentProfile.objects.get_or_create(
+            profile=profile
+        )
+        form_class = StudentProfileForm
+
+    # ALUMNI
+    elif profile.role == 'alumni':
+        instance, created = AlumniProfile.objects.get_or_create(
+            profile=profile
+        )
+        form_class = AlumniProfileForm
+
+    # FACULTY
+    else:
+        instance, created = FacultyProfile.objects.get_or_create(
+            profile=profile
+        )
+        form_class = FacultyProfileForm
+
+    if request.method == 'POST':
+        form = form_class(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect('edit_profile')
+    else:
+        form = form_class(instance=instance)
+
+    return render(request, 'edit_profile.html', {
+        'form': form
+    })
+
+
+@login_required
+def view_profile(request, profile_id):
+    profile = get_object_or_404(Profile, id=profile_id)
+
+    student = None
+    alumni = None
+    faculty = None
+
+    if profile.role == 'student':
+        student = StudentProfile.objects.filter(profile=profile).first()
+
+    elif profile.role == 'alumni':
+        alumni = AlumniProfile.objects.filter(profile=profile).first()
+
+    elif profile.role == 'faculty':
+        faculty = FacultyProfile.objects.filter(profile=profile).first()
+
+    return render(request, 'view_profile.html', {
+        'profile': profile,
+        'student': student,
+        'alumni': alumni,
+        'faculty': faculty,
+    })

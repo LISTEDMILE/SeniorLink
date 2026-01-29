@@ -15,6 +15,9 @@
 {% for profile in alumni_profiles %}
     <div style="border:1px solid #ccc; padding:10px; margin:10px;">
         <strong>{{ profile.user.username }}</strong><br>
+         <a href="{% url 'view_profile' profile.user.id %}">
+            View Profile →
+        </a>
 
         <a href="{% url 'request_mentorship' profile.user.id %}">
             Apply for Mentorship
