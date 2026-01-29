@@ -19,4 +19,5 @@ path(
 path('student/projects/', views.student_projects, name='student_projects'),
 path('join-project/<int:project_id>/', views.join_project, name='join_project'),
 path('faculty/projects/', views.faculty_projects, name='faculty_projects'),
+path('logout/', views.logout_view, name='logout'),
 ]

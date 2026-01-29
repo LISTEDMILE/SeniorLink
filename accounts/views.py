@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import Project
 from .models import MentorshipRequest, Profile
+from django.contrib.auth import logout
 
 
 def register_view(request):
@@ -137,3 +138,9 @@ def faculty_projects(request):
     return render(request, 'faculty_projects.html', {
         'projects': projects
     })
+
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
