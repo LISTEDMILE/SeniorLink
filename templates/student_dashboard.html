@@ -1,4 +1,27 @@
 {% extends 'base.html' %}
+
 {% block content %}
 <h2>Student Dashboard</h2>
+
+<form method="get">
+    <input type="text" name="search" placeholder="Search alumni">
+    <button type="submit">Search</button>
+</form>
+
+<hr>
+
+<h3>Available Alumni Mentors</h3>
+
+{% for profile in alumni_profiles %}
+    <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+        <strong>{{ profile.user.username }}</strong><br>
+
+        <a href="{% url 'request_mentorship' profile.user.id %}">
+            Apply for Mentorship
+        </a>
+    </div>
+{% empty %}
+    <p>No alumni found.</p>
+{% endfor %}
+
 {% endblock %}
