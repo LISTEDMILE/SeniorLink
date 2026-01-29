@@ -129,7 +129,7 @@ def join_project(request, project_id):
     return redirect('student_projects')
 
 from .models import Project
-from django.contrib.auth.decorators import login_required 
+from django.contrib.auth.decorators import login_required
 
 @login_required
 def faculty_projects(request):

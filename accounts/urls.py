@@ -12,7 +12,7 @@ urlpatterns = [
     path('student/', views.student_dashboard, name='student_dashboard'),
 path('request-mentorship/<int:alumni_id>/', views.send_mentorship_request, name='request_mentorship'),
 path(
-    'accept-mentorship/<int:request_id>/', 
+    'accept-mentorship/<int:request_id>/',
     views.accept_mentorship_request,
     name='accept_mentorship'
 ),
