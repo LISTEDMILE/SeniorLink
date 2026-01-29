@@ -1,32 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* 🌈 BACKGROUND */
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, #ff6ec4, transparent 40%),
+        radial-gradient(circle at bottom right, #7873f5, transparent 40%),
+        linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    animation: bgMove 10s infinite alternate;
+    padding: 40px;
+    color: white;
+}
+
+@keyframes bgMove {
+    0% { background-position: left top, right bottom, center; }
+    100% { background-position: right bottom, left top, center; }
+}
+
+/* 🔥 DASHBOARD TITLE */
 .dashboard-title {
-    margin-bottom: 20px;
+    text-align: center;
+    font-size: 3.2rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #ffdd00, #ff00cc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 30px;
+    animation: glowText 2s infinite alternate;
 }
 
+@keyframes glowText {
+    from { text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+    to   { text-shadow: 0 0 25px rgba(255,255,255,0.7); }
+}
+
+/* 🔔 SUB HEADING */
+h3 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    opacity: 0.85;
+}
+
+/* 🧊 REQUEST CARD */
 .request-card {
-    border: 1px solid #ccc;
-    padding: 15px;
-    margin: 15px 0;
-    border-radius: 6px;
-    background-color: #f9f9f9;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(14px);
+    border-radius: 18px;
+    padding: 25px;
+    margin: 18px auto;
+    max-width: 700px;
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.5),
+        inset 0 0 15px rgba(255,255,255,0.15);
+    transition: 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    animation: cardFade 0.8s ease forwards;
 }
 
+@keyframes cardFade {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ✨ CARD HOVER */
+.request-card:hover {
+    transform: scale(1.04);
+    box-shadow:
+        0 25px 55px rgba(0,0,0,0.7),
+        0 0 25px rgba(255, 0, 200, 0.4);
+}
+
+/* 💡 SHINE EFFECT */
+.request-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(99, 205, 223, 0.37),
+        transparent
+    );
+    transform: rotate(25deg);
+    animation: shine 4s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) rotate(25deg); }
+    100% { transform: translateX(100%) rotate(25deg); }
+}
+
+/* 🧾 TEXT */
 .request-card p {
-    margin: 5px 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
 }
 
+/* 🔗 ACCEPT BUTTON */
 .accept-link {
     display: inline-block;
-    margin-top: 8px;
-    color: #2c3e50;
-    font-weight: bold;
+    margin-top: 15px;
+    padding: 12px 28px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #00f2fe, #4facfe);
+    color: #000;
+    font-weight: 700;
     text-decoration: none;
+    box-shadow: 0 0 20px rgba(0,242,254,0.8);
+    transition: 0.4s;
 }
 
 .accept-link:hover {
-    text-decoration: underline;
+    transform: scale(1.1);
+    box-shadow: 0 0 35px rgba(0,242,254,1);
 }
 
+/* ✅ ACCEPTED STATUS */
 .accepted {
-    color: green;
-    font-weight: bold;
+    margin-top: 15px;
+    color: #00ff99;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-shadow: 0 0 12px rgba(0,255,153,0.9);
+}
+
+/* 😴 EMPTY STATE */
+p {
+    text-align: center;
+    opacity: 0.85;
+    font-size: 1.1rem;
+}
+.empty-state {
+    margin-top: 50px;
+    font-style: italic;
 }
