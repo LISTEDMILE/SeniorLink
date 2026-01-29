@@ -2,18 +2,59 @@
 <html>
 <head>
     <title>{% block title %}Project{% endblock %}</title>
+    <style>
+        nav {
+            background-color: #2c3e50;
+            padding: 10px;
+        }
+        nav a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 
 <h1>Alumni Project Connect</h1>
+
+<!-- NAVBAR START -->
+<nav>
+    {% if user.is_authenticated %}
+
+        {% if user.profile.role == 'student' %}
+            <a href="{% url 'student_dashboard' %}">Student Dashboard</a>
+            <a href="{% url 'student_projects' %}">Projects</a>
+        {% endif %}
+
+        {% if user.profile.role == 'alumni' %}
+            <a href="{% url 'alumni_dashboard' %}">Alumni Dashboard</a>
+        {% endif %}
+
+        {% if user.profile.role == 'faculty' %}
+            <a href="{% url 'faculty_dashboard' %}">Faculty Dashboard</a>
+            <a href="{% url 'create_project' %}">Create Project</a>
+            <a href="{% url 'faculty_projects' %}">My Projects</a>
+        {% endif %}
+
+        <span style="color:white; margin-left:20px;">
+            Logged in as <b>{{ user.username }}</b>
+        </span>
+
+        <a href="{% url 'logout' %}" style="float:right;">Logout</a>
+
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+</nav>
+<!-- NAVBAR END -->
+
 <hr>
-{% if user.is_authenticated %}
-    <p>
-        Logged in as <b>{{ user.username }}</b> |
-        <a href="{% url 'logout' %}">Logout</a>
-    </p>
-    <hr>
-{% endif %}
 
 {% block content %}
 {% endblock %}
