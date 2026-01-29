@@ -1,0 +1,115 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* BODY */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f6f8;
+    color: #333;
+}
+
+/* HEADER */
+.header {
+    background: linear-gradient(120deg, #1e3c72, #2a5298);
+    color: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    animation: slideDown 0.8s ease;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #ffd700;
+}
+
+/* NAVBAR */
+.navbar a {
+    color: white;
+    margin-right: 18px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.navbar a:hover {
+    color: #ffd700;
+}
+
+.user-info {
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+.logout-btn {
+    background: #ff4b5c;
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+.logout-btn:hover {
+    background: #e63946;
+}
+
+.register-btn {
+    background: white;
+    color: #2a5298 !important;
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+.register-btn:hover {
+    background: #eaeaea;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    padding: 40px;
+    min-height: 75vh;
+}
+
+/* FOOTER */
+.footer {
+    background: #2c3e50;
+    color: #ddd;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+/* ANIMATIONS */
+.fade-in {
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

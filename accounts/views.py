@@ -7,6 +7,8 @@ from django.contrib import messages
 from .models import Project, MentorshipRequest, Profile
 from .decorators import role_required
 
+def home(request):
+    return render(request,'home.html')
 
 # ---------------- REGISTER ----------------
 def register_view(request):
