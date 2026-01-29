@@ -1,0 +1,32 @@
+.dashboard-title {
+    margin-bottom: 20px;
+}
+
+.request-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+}
+
+.request-card p {
+    margin: 5px 0;
+}
+
+.accept-link {
+    display: inline-block;
+    margin-top: 8px;
+    color: #2c3e50;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.accept-link:hover {
+    text-decoration: underline;
+}
+
+.accepted {
+    color: green;
+    font-weight: bold;
+}
