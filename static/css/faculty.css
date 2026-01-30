@@ -1,0 +1,328 @@
+/* =========================
+   CYBER TECH BACKGROUND
+========================= */
+:root{
+  --bg1:#050b14;
+  --bg2:#0a1324;
+  --bg3:#020409;
+  --neon1:#00f2fe;
+  --neon2:#4facfe;
+  --text:#eaf3ff;
+  --muted:rgba(255,255,255,0.65);
+  --card:rgba(10, 18, 35, 0.72);
+  --line:rgba(255,255,255,0.10);
+  --shadow:rgba(0,0,0,0.7);
+}
+
+body{
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0,255,255,0.12), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(52,152,219,0.15), transparent 45%),
+    linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+  background-size: 200% 200%;
+  animation: bgShift 18s ease infinite;
+  color: var(--text);
+}
+
+/* subtle grid overlay */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* =========================
+   PAGE LAYOUT
+========================= */
+.main-content{
+  position: relative;
+  z-index: 1;
+  padding: 28px 18px;
+}
+
+/* Optional: if base has fade-in */
+.fade-in{
+  animation: pageIn 0.8s ease both;
+}
+
+/* =========================
+   TOP BAR (Create Button + Title)
+========================= */
+.main-content > a[href]{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+
+  padding: 12px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.10);
+
+  color: white;
+  text-decoration:none;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+
+  background: linear-gradient(135deg, var(--neon1), var(--neon2));
+  box-shadow: 0 18px 45px rgba(0,242,254,0.18);
+  position: relative;
+  overflow: hidden;
+
+  transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+}
+
+/* moving shine */
+.main-content > a[href]::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  transform: translateX(-110%);
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
+  transition: .6s;
+  pointer-events:none;
+}
+.main-content > a[href]:hover::before{
+  transform: translateX(110%);
+}
+.main-content > a[href]:hover{
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 22px 55px rgba(0,242,254,0.35);
+  filter: brightness(1.05);
+}
+.main-content > a[href]:active{
+  transform: translateY(0px) scale(0.99);
+}
+
+/* Page heading */
+.main-content > h2{
+  margin: 18px 0 22px;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* =========================
+   PROJECT GRID
+========================= */
+/* Your HTML uses inline-styled <div>. We style ALL direct divs inside main
+   that contain projects by giving them the "glass card" look. */
+.main-content > div{
+  background: var(--card) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+
+  border-radius: 20px;
+  padding: 22px !important;
+  margin: 18px 0 !important;
+
+  box-shadow:
+    0 30px 70px var(--shadow),
+    inset 0 0 0 1px rgba(255,255,255,0.06);
+
+  position: relative;
+  overflow: hidden;
+  transform: translateY(0);
+  transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+  animation: cardFloat .7s ease both;
+}
+
+/* glowing border */
+.main-content > div::after{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius: 20px;
+  background: linear-gradient(120deg, transparent, rgba(0,255,255,0.35), transparent);
+  opacity: 0;
+  animation: borderGlow 4s linear infinite;
+  pointer-events:none;
+}
+
+/* hover lift */
+.main-content > div:hover{
+  transform: translateY(-6px);
+  box-shadow:
+    0 40px 85px rgba(0,0,0,0.75),
+    0 0 45px rgba(0,242,254,0.12),
+    inset 0 0 0 1px rgba(255,255,255,0.08);
+  border-color: rgba(0,242,254,0.35) !important;
+}
+
+/* =========================
+   PROJECT TITLE + STATUS
+========================= */
+.main-content > div h3{
+  margin: 0 0 10px;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+  color: var(--text);
+  display:flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+/* status badge */
+.main-content > div h3 small{
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+
+  padding: 6px 10px;
+  border-radius: 999px;
+
+  color: rgba(255,255,255,0.92);
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+/* =========================
+   TEXT + METADATA
+========================= */
+.main-content > div p{
+  margin: 10px 0;
+  color: rgba(255,255,255,0.80);
+  line-height: 1.6;
+}
+
+.main-content > div p strong{
+  color: rgba(255,255,255,0.95);
+}
+
+/* Divider */
+.main-content > div hr{
+  border: 0;
+  height: 1px;
+  margin: 18px 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+}
+
+/* =========================
+   LINKS (GitHub / Docs)
+========================= */
+.main-content > div a{
+  color: var(--neon1);
+  font-weight: 800;
+  text-decoration: none;
+  position: relative;
+  transition: color .25s ease, text-shadow .25s ease;
+}
+
+/* neon underline */
+.main-content > div a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-3px;
+  width:0;
+  height:2px;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  transition: .25s ease;
+}
+.main-content > div a:hover{
+  color: var(--neon2);
+  text-shadow: 0 0 18px rgba(0,242,254,0.35);
+}
+.main-content > div a:hover::after{
+  width:100%;
+}
+
+/* =========================
+   LISTS (Students/Alumni)
+========================= */
+.main-content > div h4{
+  margin: 12px 0 8px;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.90);
+}
+
+/* list container */
+.main-content > div ul{
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+/* list items like neon chips */
+.main-content > div ul li{
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.85);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.main-content > div ul li:hover{
+  transform: translateY(-3px);
+  border-color: rgba(0,242,254,0.35);
+  box-shadow:
+    0 18px 40px rgba(0,242,254,0.12),
+    inset 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+/* empty state paragraph */
+.main-content > p{
+  margin-top: 20px;
+  color: rgba(255,255,255,0.75);
+  background: rgba(10, 18, 35, 0.55);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 16px 18px;
+  box-shadow: 0 20px 55px rgba(0,0,0,0.55);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 520px){
+  .main-content > div{
+    padding: 18px !important;
+  }
+  .main-content > h2{
+    font-size: 26px;
+  }
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+@keyframes bgShift{
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pageIn{
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cardFloat{
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes borderGlow{
+  0%   { opacity: 0; }
+  50%  { opacity: 1; }
+  100% { opacity: 0; }
+}
