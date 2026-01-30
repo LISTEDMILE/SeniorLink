@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Orbitron:wght@400;500&display=swap');
+
+/* ================= VARIABLES ================= */
+:root {
+  --accent: #6ddcff;
+  --accent-soft: rgba(109, 220, 255, 0.35);
+  --accent-dark: #4a9eff;
+  --bg-main: #0b1020;
+  --bg-panel: rgba(255, 255, 255, 0.07);
+  --border-soft: rgba(255, 255, 255, 0.18);
+  --text-main: #eef3ff;
+  --text-muted: #a7b0d6;
+  --success: #3ad29f;
+}
+
+/* ================= GLOBAL BACKGROUND ================= */
+body {
+  font-family: 'Inter', sans-serif;
+  background:
+    radial-gradient(circle at 20% 15%, #162044, transparent 40%),
+    radial-gradient(circle at 80% 80%, #1b1444, transparent 40%),
+    linear-gradient(180deg, #080c1c, #0b1020);
+  color: var(--text-main);
+}
+
+/* ================= HEADER & FOOTER ================= */
+header,
+footer {
+  background: rgba(15, 20, 50, 0.65);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  color: var(--text-main);
+}
+
+footer {
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ================= TITLE ================= */
+h2 {
+  font-family: 'Orbitron', sans-serif;
+  text-align: center;
+  margin: 40px 0;
+  font-size: 2.1rem;
+  letter-spacing: 1.5px;
+  background: linear-gradient(90deg, #a8dfff, #6daaff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ================= FORM ================= */
+form {
+  max-width: 1000px;
+  margin: 70px auto;
+  padding: 45px;
+  background: var(--bg-panel);
+  backdrop-filter: blur(18px);
+  border-radius: 26px;
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px 26px;
+}
+
+/* ================= FULL WIDTH ================= */
+textarea,
+button {
+  grid-column: span 2;
+}
+
+/* ================= LABEL ================= */
+label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  display: block;
+  margin-top: 14px;
+}
+
+/* ================= INPUTS ================= */
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 15px 16px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--text-main);
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #7f8ab3;
+}
+
+/* Hover */
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--accent-soft);
+}
+
+/* Focus */
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(109, 220, 255, 0.15);
+}
+
+/* ================= DATE FIELDS – LABEL & INPUT DOWN ================= */
+label[for*="start"],
+label[for*="end"],
+input[type="date"] {
+  grid-column: span 2;
+}
+
+/* Add spacing between date groups */
+input[type="date"] {
+  margin-bottom: 10px;
+}
+
+/* ================= BUTTON ================= */
+button {
+  padding: 18px;
+  border-radius: 18px;
+  border: none;
+  background: linear-gradient(135deg, #7fc8ff, #5fa6ff);
+  color: #020617;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* ================= CLEAN ================= */
+br {
+  display: none;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  form {
+    grid-template-columns: 1fr;
+    padding: 32px;
+  }
+
+  textarea,
+  button,
+  input[type="date"] {
+    grid-column: span 1;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+}
