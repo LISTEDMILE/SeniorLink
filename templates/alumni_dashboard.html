@@ -16,7 +16,7 @@
         </p>
         <a href="{% url 'view_profile' req.student.id %}">
             View Student Profile
-        </a>
+        </a>+
 
         {% if req.status == 'pending' %}
             <a class="accept-link" href="{% url 'accept_mentorship' req.id %}">
