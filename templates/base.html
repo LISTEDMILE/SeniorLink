@@ -28,6 +28,8 @@
 
             {% if user.profile.role == 'alumni' %}
                 <a href="{% url 'alumni_dashboard' %}">Dashboard</a>
+                 <a href="{% url 'alumni_dashboard' %}">Alumni Dashboard</a>
+    <a href="{% url 'alumni_projects' %}">Projects</a>
             {% endif %}
 
             {% if user.profile.role == 'faculty' %}

@@ -1,12 +1,92 @@
 {% extends 'base.html' %}
-
 {% block content %}
+
 <h2>Create Project</h2>
 
 <form method="post">
-    {% csrf_token %}
-    <input type="text" name="title" placeholder="Project Title"><br><br>
-    <textarea name="description" placeholder="Project Description"></textarea><br><br>
-    <button type="submit">Create</button>
+  {% csrf_token %}
+
+  <!-- Title -->
+  <input
+    type="text"
+    name="title"
+    placeholder="Project Title"
+    required
+  /><br /><br />
+
+  <!-- Short Description -->
+  <input
+    type="text"
+    name="short_description"
+    placeholder="Short Description (max 300 chars)"
+    required
+  /><br /><br />
+
+  <!-- Full Description -->
+  <textarea
+    name="description"
+    placeholder="Detailed Project Description"
+    rows="5"
+    required
+  ></textarea><br /><br />
+
+  <!-- Domain -->
+  <select name="domain" required>
+    <option value="">Select Domain</option>
+    <option value="web">Web Development</option>
+    <option value="ai">Artificial Intelligence</option>
+    <option value="ml">Machine Learning</option>
+    <option value="iot">IoT</option>
+    <option value="blockchain">Blockchain</option>
+    <option value="other">Other</option>
+  </select><br /><br />
+
+  <!-- Technologies -->
+  <input
+    type="text"
+    name="technologies"
+    placeholder="Technologies (e.g. Django, React)"
+    required
+  /><br /><br />
+
+  <!-- Difficulty -->
+  <select name="difficulty_level" required>
+    <option value="">Difficulty Level</option>
+    <option value="beginner">Beginner</option>
+    <option value="intermediate">Intermediate</option>
+    <option value="advanced">Advanced</option>
+  </select><br /><br />
+
+  <!-- Dates -->
+  <label>Start Date:</label><br />
+  <input type="date" name="start_date" required /><br /><br />
+
+  <label>End Date (optional):</label><br />
+  <input type="date" name="end_date" /><br /><br />
+
+  <!-- Capacity -->
+  <input
+    type="number"
+    name="max_students"
+    placeholder="Max Students"
+    min="1"
+    required
+  /><br /><br />
+
+  <!-- Links -->
+  <input
+    type="url"
+    name="github_link"
+    placeholder="GitHub Repository (optional)"
+  /><br /><br />
+
+  <input
+    type="url"
+    name="documentation_link"
+    placeholder="Documentation Link (optional)"
+  /><br /><br />
+
+  <button type="submit">Create Project</button>
 </form>
+
 {% endblock %}
