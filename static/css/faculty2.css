@@ -47,7 +47,7 @@ h2 {
     -webkit-text-fill-color: transparent;
 
     position: relative;
-    animation: titleGlow 1.1s ease;
+    animation: titleGlow 0.5s ease;
 }
 
 /* glowing card behind heading */
