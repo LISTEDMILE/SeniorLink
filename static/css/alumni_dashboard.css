@@ -1,139 +1,225 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode",
-                 "Segoe UI", Arial, sans-serif;
-}
-
-/* 🌑 DARK PROFESSIONAL BACKGROUND */
+/* =========================
+   CYBER TECH BACKGROUND
+========================= */
 body {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #0b0f1a, #0e1324);
-    padding: 40px;
-    color: #e5e7eb;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(0,255,255,0.12), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(52,152,219,0.15), transparent 45%),
+        linear-gradient(135deg, #050b14, #0a1324, #020409);
+    background-size: 200% 200%;
+    animation: bgShift 18s ease infinite;
+    color: #ecf0f1;
+    font-family: "Segoe UI", sans-serif;
 }
 
-/* 🧭 DASHBOARD TITLE (LINEAR & CLEAN) */
+/* grid overlay */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* =========================
+   DASHBOARD WRAPPER
+========================= */
+.dashboard-wrapper {
+    min-height: 100vh;
+    padding: 40px 16px;
+    position: relative;
+    z-index: 2;
+}
+
+/* =========================
+   TITLES (same style as login)
+========================= */
 .dashboard-title {
     text-align: center;
-    font-size: 2.3rem;
-    font-weight: 600;
-    color: #f9fafb;
-    margin-bottom: 12px;
-    letter-spacing: 0.3px;
+    margin-bottom: 10px;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #00f2fe, #4facfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-/* subtle divider */
-.dashboard-title::after {
-    content: "";
-    display: block;
-    width: 56px;
-    height: 3px;
-    margin: 12px auto 0;
-    background: linear-gradient(90deg, #6366f1, #22d3ee);
-    border-radius: 4px;
-}
-
-/* 🔔 SUB HEADING */
 h3 {
     text-align: center;
-    font-size: 1.05rem;
-    font-weight: 400;
-    margin-bottom: 36px;
-    color: #9ca3af;
+    margin-bottom: 30px;
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
 }
 
-/* 🧊 REQUEST CARD */
+/* =========================
+   REQUEST CARD (login-card clone)
+========================= */
 .request-card {
-    background: rgba(255, 255, 255, 0.045);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
+    width: min(420px, 100%);
+    margin: 18px auto;
     padding: 26px;
-    margin: 20px auto;
-    max-width: 700px;
+    background: rgba(10, 18, 35, 0.75);
+    backdrop-filter: blur(18px);
+    border-radius: 20px;
+
+    box-shadow:
+        0 30px 70px rgba(0,0,0,0.7),
+        inset 0 0 0 1px rgba(255,255,255,0.08);
+
     position: relative;
-    overflow: hidden;
-    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    animation: cardFloat 0.9s ease;
+    z-index: 2;
 }
 
-/* 🪄 CARD HOVER */
-.request-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(99, 102, 241, 0.45);
-    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.65);
-}
-
-/* ✨ SHINE STRIP (HOVER ONLY) */
-.request-card::before {
-    content: '';
+/* glowing border */
+.request-card::after {
+    content: "";
     position: absolute;
-    top: -50%;
-    left: -65%;
-    width: 200%;
-    height: 200%;
+    inset: -1px;
+    border-radius: 20px;
     background: linear-gradient(
         120deg,
         transparent,
-        rgba(255, 255, 255, 0.14),
+        rgba(0,255,255,0.4),
         transparent
     );
-    transform: rotate(25deg);
     opacity: 0;
+    animation: borderGlow 4s linear infinite;
+    pointer-events: none;
+    z-index: 0;
 }
 
-.request-card:hover::before {
-    animation: shine 1.3s ease forwards;
-    opacity: 1;
+/* keep content clickable */
+.request-card * {
+    position: relative;
+    z-index: 2;
 }
 
-@keyframes shine {
-    from {
-        transform: translateX(-100%) rotate(25deg);
-    }
-    to {
-        transform: translateX(100%) rotate(25deg);
-    }
+/* hover lift */
+.request-card:hover {
+    transform: translateY(-6px);
+    transition: 0.35s ease;
+    box-shadow:
+        0 35px 80px rgba(0,0,0,0.75),
+        0 0 25px rgba(0,242,254,0.3);
 }
 
-/* 🧾 CARD TEXT */
+/* =========================
+   TEXT
+========================= */
 .request-card p {
-    font-size: 0.98rem;
-    line-height: 1.7;
-    color: #d1d5db;
+    font-size: 15px;
+    line-height: 1.6;
 }
 
-/* 🔗 ACCEPT BUTTON */
+.request-card strong {
+    color: #4facfe;
+}
+
+/* accepted text */
+.accepted {
+    margin-top: 12px;
+    font-weight: 700;
+    color: #2ecc71;
+    text-shadow: 0 0 12px rgba(46,204,113,0.6);
+}
+
+/* =========================
+   ACCEPT BUTTON (btn-primary clone)
+========================= */
 .accept-link {
     display: inline-block;
-    margin-top: 18px;
-    padding: 10px 26px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #6366f1, #22d3ee);
-    color: #020617;
-    font-weight: 600;
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+
+    color: white;
+    background: linear-gradient(135deg, #00f2fe, #4facfe);
     text-decoration: none;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.35s ease;
+}
+
+/* shine animation */
+.accept-link::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.5),
+        transparent
+    );
+    transform: translateX(-100%);
+    transition: 0.6s;
+    pointer-events: none;
+}
+
+.accept-link:hover::before {
+    transform: translateX(100%);
 }
 
 .accept-link:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 28px rgba(34, 211, 238, 0.35);
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 18px 40px rgba(0,242,254,0.6);
 }
 
-/* ✅ ACCEPTED STATUS */
-.accepted {
-    margin-top: 16px;
-    color: #22c55e;
-    font-weight: 600;
-    font-size: 0.95rem;
-}
-
-/* 😴 EMPTY STATE */
-.empty-state {
-    margin-top: 60px;
+/* =========================
+   EMPTY STATE
+========================= */
+.request-empty {
     text-align: center;
-    color: #9ca3af;
-    font-style: italic;
-    font-size: 1rem;
+    color: rgba(255,255,255,0.6);
+}
+
+/* =========================
+   ANIMATIONS (UNCHANGED)
+========================= */
+@keyframes bgShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes cardFloat {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes borderGlow {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* =========================
+   CLICK SAFE FIXES
+========================= */
+body::before,
+body::after {
+    pointer-events: none;
+}
+
+.dashboard-wrapper,
+.request-card {
+    position: relative;
+    z-index: 10;
 }
