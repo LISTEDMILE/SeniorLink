@@ -1,35 +1,71 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h2>Find Alumni Mentors</h2>
+
+<link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
+
+<h2 class="page-title">Find Alumni Mentors</h2>
 
 {% for alumni in alumni_profiles %}
-<div style="border:1px solid #ccc; padding:15px; margin-bottom:15px;">
+<div class="alumni-card">
 
-    <h3>{{ alumni.user.username }}</h3>
+    <!-- HEADER -->
+    <div class="alumni-header">
+        <h3>{{ alumni.user.username }}</h3>
+        {% if alumni.alumniprofile.available_for_mentorship %}
+            <span class="badge available">Available</span>
+        {% else %}
+            <span class="badge unavailable">Unavailable</span>
+        {% endif %}
+    </div>
 
+    <!-- DETAILS -->
     {% if alumni.alumniprofile %}
-        <p><strong>Company:</strong> {{ alumni.alumniprofile.company_name }}</p>
-        <p><strong>Role:</strong> {{ alumni.alumniprofile.current_role }}</p>
+    <div class="alumni-details">
+        <p><strong>Company:</strong> {{ alumni.alumniprofile.company_name|default:"—" }}</p>
+        <p><strong>Role:</strong> {{ alumni.alumniprofile.current_role|default:"—" }}</p>
+        <p><strong>Domain:</strong> {{ alumni.alumniprofile.domain|default:"—" }}</p>
+
+        {% if alumni.alumniprofile.experience_years %}
+            <p><strong>Experience:</strong> {{ alumni.alumniprofile.experience_years }} years</p>
+        {% endif %}
+
+        {% if alumni.alumniprofile.expertise %}
+            <p><strong>Expertise:</strong> {{ alumni.alumniprofile.expertise }}</p>
+        {% endif %}
+    </div>
     {% endif %}
 
     <hr>
 
-    {% if alumni.request_status == 'pending' %}
-        <p style="color:orange;">⏳ Request Pending</p>
+    <!-- ACTIONS -->
+    <div class="actions">
 
-    {% elif alumni.request_status == 'accepted' %}
-        <p style="color:green;">✅ Accepted</p>
-
-    {% else %}
-        <a href="{% url 'send_mentorship_request' alumni.user.id %}">
-            🤝 Request Mentorship
+        <a href="{% url 'view_profile' alumni.user.id %}" class="link">
+            👤 View Profile
         </a>
-    {% endif %}
+
+        {% if alumni.request_status == 'pending' %}
+            <span class="status pending">⏳ Request Pending</span>
+
+        {% elif alumni.request_status == 'accepted' %}
+            <span class="status accepted">✅ Accepted</span>
+
+        {% else %}
+            {% if alumni.alumniprofile.available_for_mentorship %}
+                <a href="{% url 'send_mentorship_request' alumni.user.id %}" class="btn">
+                    🤝 Request Mentorship
+                </a>
+            {% else %}
+                <span class="status disabled">Not accepting requests</span>
+            {% endif %}
+        {% endif %}
+    </div>
 
 </div>
 {% empty %}
-<p>No alumni available.</p>
+<p class="empty">No alumni available.</p>
 {% endfor %}
 
 {% endblock %}
