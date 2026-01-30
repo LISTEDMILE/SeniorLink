@@ -1,0 +1,290 @@
+/* ======================================================
+   THEME
+====================================================== */
+:root {
+  --bg-main: #060a14;
+  --bg-soft: #0b1226;
+  --bg-deep: #02040a;
+
+  --card-bg: rgba(15, 24, 48, 0.75);
+  --card-border: rgba(255,255,255,0.08);
+
+  --accent-1: #00f2fe;
+  --accent-2: #4facfe;
+
+  --text-main: #eaf2ff;
+  --text-muted: rgba(234,242,255,0.65);
+
+  --shadow-heavy: rgba(0,0,0,0.8);
+}
+
+/* ======================================================
+   PAGE BACKGROUND
+====================================================== */
+body {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(0,242,254,0.12), transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(79,172,254,0.14), transparent 45%),
+    linear-gradient(135deg, var(--bg-main), var(--bg-soft), var(--bg-deep));
+  color: var(--text-main);
+}
+
+/* ======================================================
+   PAGE WRAPPER
+====================================================== */
+.profile-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 6vw 120px;
+  animation: fadeIn 0.8s ease;
+}
+
+/* ======================================================
+   HEADER
+====================================================== */
+.profile-header {
+  text-align: center;
+  margin-bottom: 90px;
+}
+
+.profile-header h1 {
+  font-size: clamp(36px, 4vw, 48px);
+  font-weight: 900;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.profile-header .role {
+  margin-top: 10px;
+  font-size: 15px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+.profile-header .email {
+  font-size: 14px;
+  color: rgba(234,242,255,0.5);
+}
+
+/* ======================================================
+   PROFILE CARD
+====================================================== */
+.profile-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(18px);
+  border-radius: 28px;
+  margin-bottom: 50px;
+  overflow: hidden;
+
+  box-shadow:
+    0 35px 90px var(--shadow-heavy),
+    inset 0 0 0 1px var(--card-border);
+
+  animation: slideUp 0.8s ease;
+}
+
+/* CARD TITLE */
+.profile-card h2 {
+  padding: 32px 36px;
+  font-size: 22px;
+  font-weight: 800;
+  border-bottom: 1px solid var(--card-border);
+}
+
+/* ======================================================
+   CARD SECTIONS (TOP / BOTTOM SPLIT)
+====================================================== */
+.profile-card > *:not(h2) {
+  padding: 32px 36px;
+}
+
+/* Visual divider */
+.profile-card > * + * {
+  border-top: 1px dashed rgba(255,255,255,0.08);
+}
+
+/* ======================================================
+   GRID
+====================================================== */
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 26px;
+}
+
+.profile-grid span,
+.profile-block span,
+.domain-tags span,
+.tech-stack span,
+.progress-wrapper span {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: var(--text-muted);
+}
+
+.profile-grid p,
+.profile-block p {
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* ======================================================
+   PROFILE BLOCKS
+====================================================== */
+.profile-block {
+  background: rgba(0,0,0,0.35);
+  border-radius: 18px;
+  padding: 20px 22px;
+  box-shadow: inset 0 0 0 1px var(--card-border);
+}
+
+/* ======================================================
+   STUDENT PROJECT FOCUS
+====================================================== */
+.project-focus h3 {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.project-focus .domain {
+  color: var(--accent-1);
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+
+.project-focus .description {
+  line-height: 1.75;
+  margin-bottom: 26px;
+}
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 26px;
+}
+
+/* ======================================================
+   TECH STACK
+====================================================== */
+.tech-stack {
+  background: rgba(0,0,0,0.4);
+  border-radius: 16px;
+  padding: 16px 18px;
+  box-shadow: inset 0 0 0 1px var(--card-border);
+}
+
+/* ======================================================
+   PROGRESS BAR
+====================================================== */
+.progress-wrapper {
+  margin-top: 24px;
+}
+
+.progress-bar {
+  height: 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.15);
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.progress-bar div {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  animation: loadProgress 1.2s ease;
+}
+
+/* ======================================================
+   ALUMNI DOMAINS
+====================================================== */
+.domain-tags {
+  margin-top: 10px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.tag {
+  padding: 10px 18px;
+  border-radius: 22px;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(0,242,254,0.16);
+  color: var(--accent-1);
+}
+
+/* ======================================================
+   LINKS
+====================================================== */
+.profile-links {
+  display: flex;
+  gap: 18px;
+  margin-top: 26px;
+}
+
+.profile-links a {
+  padding: 12px 26px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  color: white;
+
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-links a:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 18px 40px rgba(0,242,254,0.6);
+}
+
+/* ======================================================
+   ANIMATIONS
+====================================================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes loadProgress {
+  from { width: 0; }
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+@media (max-width: 640px) {
+  .profile-page {
+    padding: 60px 22px 90px;
+  }
+
+  .profile-card h2 {
+    padding: 26px;
+  }
+
+  .profile-card > *:not(h2) {
+    padding: 26px;
+  }
+}

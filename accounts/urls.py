@@ -6,7 +6,6 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
 
-    path('student/', views.student_dashboard, name='student_dashboard'),
     path('alumni/', views.alumni_dashboard, name='alumni_dashboard'),
     path('faculty/', views.faculty_dashboard, name='faculty_dashboard'),
     path('create-project/', views.create_project, name='create_project'),
@@ -17,6 +16,11 @@ path(
     views.accept_mentorship_request,
     name='accept_mentorship'
 ),
+path(
+    'decline-mentorship/<int:request_id>/',
+    views.decline_mentorship_request,
+    name='decline_mentorship'
+),
 path('student/projects/', views.student_projects, name='student_projects'),
 path('join-project/<int:project_id>/', views.join_project, name='join_project'),
 path('faculty/projects/', views.faculty_projects, name='faculty_projects'),
@@ -26,7 +30,7 @@ path('profile/<int:profile_id>/', views.view_profile, name='view_profile'),
 path('alumni/projects/', views.alumni_projects, name='alumni_projects'),
 path('alumni/projects/join/<int:project_id>/', views.join_project_as_alumni, name='join_project_as_alumni'),
 path(
-        'mentorship/request/<int:alumni_id>/',
+        'send_mentorship_request/<int:alumni_id>/',
         views.send_mentorship_request,
         name='send_mentorship_request'
     ),

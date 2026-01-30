@@ -1,36 +1,113 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h2>Find Alumni Mentors</h2>
+<link rel="stylesheet" href="{% static 'css/student_projects.css' %}?v=2">
 
-{% for alumni in alumni_profiles %}
-<div style="border:1px solid #ccc; padding:15px; margin-bottom:15px;">
+<h2 class="page-title">Available Projects</h2>
 
-    <h3>{{ alumni.user.username }}</h3>
+{% for project in projects %}
+<div class="project-card">
 
-    {% if alumni.alumniprofile %}
-        <p><strong>Company:</strong> {{ alumni.alumniprofile.company_name }}</p>
-        <p><strong>Role:</strong> {{ alumni.alumniprofile.current_role }}</p>
-        <p><strong>Experience:</strong> {{ alumni.alumniprofile.experience_years }} years</p>
+    <!-- 🔹 HEADER -->
+    <div class="project-header">
+        <div>
+            <h3>{{ project.title }}</h3>
+            {% if project.short_description %}
+                <p class="subtitle">{{ project.short_description }}</p>
+            {% endif %}
+        </div>
+
+        <div class="meta-badges">
+            <span class="badge status-{{ project.status }}">
+                {{ project.get_status_display }}
+            </span>
+
+            {% if project.difficulty_level %}
+                <span class="badge difficulty">
+                    {{ project.get_difficulty_level_display }}
+                </span>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 📐 DETAILS GRID -->
+    <div class="project-details">
+
+        <p>
+            <strong>Domain</strong>
+            {{ project.get_domain_display|default:"—" }}
+        </p>
+
+        <p>
+            <strong>Technologies</strong>
+            {{ project.technologies|default:"—" }}
+        </p>
+
+        <p>
+            <strong>Start Date</strong>
+            {{ project.start_date|default:"—" }}
+        </p>
+
+        <p>
+            <strong>End Date</strong>
+            {{ project.end_date|default:"—" }}
+        </p>
+
+        <p>
+            <strong>Faculty Mentor</strong>
+            {{ project.faculty.username }}
+        </p>
+
+        <p>
+            <strong>Capacity</strong>
+            {{ project.students.count }} / {{ project.max_students }}
+        </p>
+
+        {% if project.description %}
+        <p class="full-width">
+            <strong>Project Description</strong>
+            {{ project.description }}
+        </p>
+        {% endif %}
+    </div>
+
+    <!-- 🔗 RESOURCES -->
+    {% if project.github_link or project.documentation_link %}
+    <div class="resources">
+        {% if project.github_link %}
+            <a href="{{ project.github_link }}" target="_blank">💻 GitHub</a>
+        {% endif %}
+        {% if project.documentation_link %}
+            <a href="{{ project.documentation_link }}" target="_blank">📄 Docs</a>
+        {% endif %}
+    </div>
     {% endif %}
 
     <hr>
 
-    {% if alumni.request_status == 'pending' %}
-        <p style="color:orange;">⏳ Mentorship Request Pending</p>
+    <!-- 🤝 ACTIONS -->
+    <div class="actions">
+        {% if user in project.students.all %}
+            <span class="status joined">✔ Joined</span>
 
-    {% elif alumni.request_status == 'accepted' %}
-        <p style="color:green;">✅ Mentorship Accepted</p>
+        {% elif project.students.count >= project.max_students %}
+            <span class="status disabled">Project Full</span>
 
-    {% else %}
-        <a href="{% url 'send_mentorship_request' alumni.user.id %}">
-            🤝 Request Mentorship
-        </a>
-    {% endif %}
+        {% elif project.status != 'open' %}
+            <span class="status disabled">Not Open</span>
+
+        {% else %}
+            <form method="post" action="{% url 'join_project' project.id %}">
+                {% csrf_token %}
+                <button class="join-btn">🤝 Join Project</button>
+            </form>
+        {% endif %}
+    </div>
 
 </div>
 {% empty %}
-<p>No alumni available.</p>
+<p class="empty">No projects available.</p>
 {% endfor %}
 
 {% endblock %}

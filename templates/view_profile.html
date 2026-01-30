@@ -1,38 +1,183 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h2>{{ profile.full_name|default:profile.user.username }}</h2>
+<link rel="stylesheet" href="{% static 'css/profile_detail.css' %}?v=2">
 
-<p><strong>Role:</strong> {{ profile.role|title }}</p>
-<p><strong>Email:</strong> {{ profile.user.email }}</p>
+<div class="profile-page">
 
-<hr>
+  <!-- ================= HEADER ================= -->
+  <section class="profile-header">
+    <h1>{{ profile.full_name|default:profile.user.username }}</h1>
+    <p class="role">{{ profile.role|title }}</p>
+    <p class="email">{{ profile.user.email }}</p>
+  </section>
 
-{% if student %}
-    <h3>🎓 Student Details</h3>
-    <p>College: {{ student.college_name }}</p>
-    <p>Degree: {{ student.degree }}</p>
-    <p>Branch: {{ student.branch }}</p>
-    <p>Skills: {{ student.skills }}</p>
-{% endif %}
+  <!-- ================= STUDENT ================= -->
+{% if profile.role == 'student' and student %}
+  <section class="profile-card">
+    <h2>🎓 Student Profile</h2>
 
-{% if alumni %}
-    <h3>🏢 Alumni Details</h3>
-    <p>Company: {{ alumni.company_name }}</p>
-    <p>Role: {{ alumni.current_role }}</p>
-    <p>Experience: {{ alumni.experience_years }} years</p>
-    <p>Expertise: {{ alumni.expertise }}</p>
+    <div class="profile-grid">
+      <div>
+        <span>College</span>
+        <p>{{ student.college_name }}</p>
+      </div>
+      <div>
+        <span>Degree</span>
+        <p>{{ student.degree }}</p>
+      </div>
+      <div>
+        <span>Branch</span>
+        <p>{{ student.branch }}</p>
+      </div>
+      <div>
+        <span>Year of Study</span>
+        <p>{{ student.year_of_study }}</p>
+      </div>
+    </div>
 
-    {% if alumni.linkedin %}
-        <a href="{{ alumni.linkedin }}" target="_blank">LinkedIn</a>
+    {% if student.skills %}
+      <div class="profile-block">
+        <span>Skills</span>
+        <p>{{ student.skills }}</p>
+      </div>
     {% endif %}
-{% endif %}
 
-{% if faculty %}
-    <h3>🏫 Faculty Details</h3>
-    <p>Department: {{ faculty.department }}</p>
-    <p>Designation: {{ faculty.designation }}</p>
-    <p>Expertise: {{ faculty.expertise }}</p>
-{% endif %}
+    {% if student.interests %}
+      <div class="profile-block">
+        <span>Interests</span>
+        <p>{{ student.interests }}</p>
+      </div>
+    {% endif %}
+  </section>
 
+  <!-- ===== CURRENT PROJECT (FOCUSED SECTION) ===== -->
+  {% if profile.role == 'student' and student.current_project_title %}
+  <section class="profile-card highlight">
+    <h2>🚀 Currently Working On</h2>
+
+    <div class="project-focus">
+      <h3>{{ student.current_project_title }}</h3>
+      <p class="domain">{{ student.current_project_domain }}</p>
+
+      {% if student.current_project_description %}
+        <p class="description">{{ student.current_project_description }}</p>
+      {% endif %}
+
+      <div class="project-meta">
+        {% if student.current_project_role %}
+          <span><strong>Role:</strong> {{ student.current_project_role }}</span>
+        {% endif %}
+
+        <span>
+          <strong>Status:</strong>
+          {{ student.get_current_project_status_display }}
+        </span>
+
+        {% if student.current_project_start_date %}
+          <span>
+            <strong>Started:</strong>
+            {{ student.current_project_start_date }}
+          </span>
+        {% endif %}
+      </div>
+
+      {% if student.current_project_technologies %}
+        <div class="tech-stack">
+          <span>Tech Stack</span>
+          <p>{{ student.current_project_technologies }}</p>
+        </div>
+      {% endif %}
+
+      <div class="progress-wrapper">
+        <span>Progress</span>
+        <div class="progress-bar">
+          <div style="width: {{ student.current_project_progress }}%"></div>
+        </div>
+        <small>{{ student.current_project_progress }}%</small>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+  {% endif %}
+
+  <!-- ================= ALUMNI ================= -->
+{% if profile.role == 'alumni' and alumni %}
+  <section class="profile-card">
+    <h2>🏢 Alumni Profile</h2>
+
+    <div class="profile-grid">
+      <div>
+        <span>Company</span>
+        <p>{{ alumni.company_name }}</p>
+      </div>
+      <div>
+        <span>Current Role</span>
+        <p>{{ alumni.current_role }}</p>
+      </div>
+      <div>
+        <span>Experience</span>
+        <p>{{ alumni.experience_years }} years</p>
+      </div>
+    </div>
+
+    {% if alumni.expertise %}
+      <div class="profile-block">
+        <span>Expertise</span>
+        <p>{{ alumni.expertise }}</p>
+      </div>
+    {% endif %}
+
+    <!-- ===== INTERESTED DOMAINS (FOCUSED) ===== -->
+    {% if alumni.interested_domains %}
+      <div class="domain-tags">
+        <span>Interested Domains</span>
+        <div class="tags">
+          {% for domain in alumni.interested_domains %}
+            <span class="tag">{{ domain }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if alumni.linkedin or alumni.github %}
+      <div class="profile-links">
+        {% if alumni.linkedin %}
+          <a href="{{ alumni.linkedin }}" target="_blank">LinkedIn</a>
+        {% endif %}
+        {% if alumni.github %}
+          <a href="{{ alumni.github }}" target="_blank">GitHub</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  <!-- ================= FACULTY ================= -->
+{% if profile.role == 'faculty' and faculty %}
+  <section class="profile-card">
+    <h2>🏫 Faculty Profile</h2>
+
+    <div class="profile-grid">
+      <div>
+        <span>Department</span>
+        <p>{{ faculty.department }}</p>
+      </div>
+      <div>
+        <span>Designation</span>
+        <p>{{ faculty.designation }}</p>
+      </div>
+    </div>
+
+    {% if faculty.expertise %}
+      <div class="profile-block">
+        <span>Expertise</span>
+        <p>{{ faculty.expertise }}</p>
+      </div>
+    {% endif %}
+  </section>
+  {% endif %}
+
+</div>
 {% endblock %}

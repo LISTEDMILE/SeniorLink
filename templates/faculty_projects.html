@@ -1,82 +1,143 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/faculty.css' %}">
-
-<a href="{% url 'create_project' %}">➕ Create New Project</a>
-<h2>My Projects</h2>
+<link rel="stylesheet" href="{% static 'css/faculty_projects.css' %}?v=1">
 
 {% for project in projects %}
-  <div style="border:1px solid #ccc; padding:15px; margin:15px;">
+<div class="project-card">
 
-    <!-- Title & Status -->
+  <!-- ================= HEADER ================= -->
+  <div class="card-header">
     <h3>
       {{ project.title }}
-      <small>({{ project.get_status_display }})</small>
+      <small>{{ project.get_status_display }}</small>
     </h3>
 
-    <!-- Descriptions -->
-    <p><strong>Short:</strong> {{ project.short_description }}</p>
-    <p>{{ project.description }}</p>
-
-    <!-- Metadata -->
-    <p>
-      <strong>Domain:</strong> {{ project.get_domain_display }} |
-      <strong>Difficulty:</strong> {{ project.get_difficulty_level_display }}
-    </p>
-
-    <p>
-      <strong>Technologies:</strong> {{ project.technologies }}
-    </p>
-
-    <!-- Timeline -->
-    <p>
-      <strong>Start:</strong> {{ project.start_date }}
-      {% if project.end_date %}
-        | <strong>End:</strong> {{ project.end_date }}
-      {% endif %}
-    </p>
-
-    <!-- Capacity -->
-    <p>
-      <strong>Students:</strong>
+    <div class="capacity">
       {{ project.students.count }} / {{ project.max_students }}
-    </p>
+      <span>Students</span>
+    </div>
+  </div>
 
-    <!-- Links -->
-    {% if project.github_link %}
-      <p><a href="{{ project.github_link }}" target="_blank">GitHub Repo</a></p>
-    {% endif %}
-    {% if project.documentation_link %}
-      <p><a href="{{ project.documentation_link }}" target="_blank">Documentation</a></p>
-    {% endif %}
+  <!-- ================= MAIN BODY ================= -->
+  <div class="card-body">
 
-    <hr>
+    <!-- LEFT: META -->
+    <div class="card-meta">
 
-    <!-- Students -->
-    <h4>Students</h4>
-    <ul>
-      {% for student in project.students.all %}
-        <li>{{ student.username }}</li>
-      {% empty %}
-        <li>No students joined yet</li>
-      {% endfor %}
-    </ul>
+      <div>
+        <span>Domain</span>
+        {{ project.get_domain_display|default:"—" }}
+      </div>
 
-    <!-- Alumni -->
-    <h4>Alumni Mentors</h4>
-    <ul>
-      {% for alum in project.alumni.all %}
-        <li>{{ alum.username }}</li>
-      {% empty %}
-        <li>No alumni mentors yet</li>
-      {% endfor %}
-    </ul>
+      <div>
+        <span>Difficulty</span>
+        {{ project.get_difficulty_level_display|default:"—" }}
+      </div>
+
+      <div>
+        <span>Technologies</span>
+        {{ project.technologies|default:"—" }}
+      </div>
+
+      <div>
+        <span>Timeline</span>
+        {{ project.start_date|default:"—" }} –
+        {{ project.end_date|default:"Ongoing" }}
+      </div>
+
+      <div>
+        <span>Visibility</span>
+        {% if project.is_public %} Public {% else %} Private {% endif %}
+      </div>
+
+      <div>
+        <span>Rating</span>
+        {{ project.rating }} / 5
+      </div>
+
+    </div>
+
+    <!-- RIGHT: PEOPLE -->
+    <div class="card-people">
+
+      <div class="people-block">
+        <h4>Faculty</h4>
+        <ul>
+          <li>{{ project.faculty.username }}</li>
+        </ul>
+      </div>
+
+      <div class="people-block">
+        <h4>Students</h4>
+        <ul>
+          {% for s in project.students.all %}
+            <li>{{ s.username }}</li>
+          {% empty %}
+            <li>None</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="people-block">
+        <h4>Alumni</h4>
+        <ul>
+          {% for a in project.alumni.all %}
+            <li>{{ a.username }}</li>
+          {% empty %}
+            <li>None</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+    </div>
 
   </div>
+
+  <!-- ================= DESCRIPTION ================= -->
+  {% if project.short_description or project.description or project.feedback %}
+  <div class="card-desc">
+
+    {% if project.short_description %}
+      <p><strong>Short Overview</strong><br>{{ project.short_description }}</p>
+    {% endif %}
+
+    {% if project.description %}
+      <p><strong>Description</strong><br>{{ project.description }}</p>
+    {% endif %}
+
+    {% if project.feedback %}
+      <p><strong>Feedback</strong><br>{{ project.feedback }}</p>
+    {% endif %}
+
+  </div>
+  {% endif %}
+
+  <!-- ================= FOOTER / LINKS ================= -->
+  <div class="card-actions">
+
+    {% if project.github_link %}
+      <a href="{{ project.github_link }}" target="_blank">GitHub</a>
+    {% endif %}
+
+    {% if project.documentation_link %}
+      <a href="{{ project.documentation_link }}" target="_blank">Docs</a>
+    {% endif %}
+
+    <span class="timestamp">
+      Created: {{ project.created_at|date:"M d, Y" }}
+    </span>
+
+    <span class="timestamp">
+      Updated: {{ project.updated_at|date:"M d, Y" }}
+    </span>
+
+  </div>
+
+</div>
 {% empty %}
-  <p>You haven’t created any projects yet.</p>
+<p>You haven’t created any projects yet.</p>
 {% endfor %}
 
 {% endblock %}

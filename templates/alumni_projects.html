@@ -1,87 +1,68 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h2>Available Projects</h2>
+<link rel="stylesheet" href="{% static 'css/alumni_projects.css' %}?v=4">
 
-{% for project in projects %}
-<div style="
-    border:1px solid #ddd;
-    border-radius:10px;
-    padding:20px;
-    margin-bottom:20px;
-    background:#f9f9f9;
-">
+<div class="tech-bg"></div>
 
-    <!-- TITLE -->
-    <h3>{{ project.title }}</h3>
+<section class="projects-page">
 
-    <!-- SHORT DESCRIPTION -->
-    {% if project.short_description %}
-        <p><i>{{ project.short_description }}</i></p>
-    {% endif %}
+  <header class="projects-header">
+    <h1>Available Projects</h1>
+    <p>Collaborate, mentor, and build something impactful</p>
+  </header>
 
-    <!-- BASIC INFO -->
-    <p><strong>Faculty:</strong> {{ project.faculty.username }}</p>
-    <p><strong>Domain:</strong> {{ project.get_domain_display }}</p>
-    <p><strong>Difficulty:</strong> {{ project.get_difficulty_level_display }}</p>
-    <p><strong>Status:</strong> {{ project.get_status_display }}</p>
+  <div class="projects-grid">
+    {% for project in projects %}
+      <article class="project-card">
 
-    <!-- TIMELINE -->
-    {% if project.start_date %}
-        <p>
-            <strong>Timeline:</strong>
-            {{ project.start_date }} →
-            {{ project.end_date|default:"Ongoing" }}
-        </p>
-    {% endif %}
+        <div class="project-head">
+          <h3>{{ project.title }}</h3>
+          <span class="status {{ project.status }}">{{ project.get_status_display }}</span>
+        </div>
 
-    <!-- TECHNOLOGIES -->
-    {% if project.technologies %}
-        <p><strong>Technologies:</strong> {{ project.technologies }}</p>
-    {% endif %}
-
-    <!-- DESCRIPTION -->
-    {% if project.description %}
-        <p>{{ project.description }}</p>
-    {% endif %}
-
-    <!-- LINKS -->
-    {% if project.github_link %}
-        <p>
-            🔗 <a href="{{ project.github_link }}" target="_blank">GitHub Repository</a>
-        </p>
-    {% endif %}
-
-    {% if project.documentation_link %}
-        <p>
-            📄 <a href="{{ project.documentation_link }}" target="_blank">Documentation</a>
-        </p>
-    {% endif %}
-
-    <!-- STUDENT / ALUMNI COUNTS -->
-    <p>
-        👨‍🎓 Students: {{ project.students.count }} / {{ project.max_students }} |
-        👨‍🏫 Alumni Mentors: {{ project.alumni.count }}
-    </p>
-
-    <hr>
-
-    <!-- JOIN LOGIC -->
-    {% if user in project.alumni.all %}
-        <p style="color:green;"><strong>✅ You are mentoring this project</strong></p>
-    {% else %}
-        {% if project.is_public and project.status != 'completed' %}
-            <a href="{% url 'join_project_as_alumni' project.id %}">
-                🤝 Join as Mentor
-            </a>
-        {% else %}
-            <p style="color:gray;">Not open for joining</p>
+        {% if project.short_description %}
+          <p class="project-tagline">{{ project.short_description }}</p>
         {% endif %}
-    {% endif %}
 
-</div>
-{% empty %}
-<p>No projects available at the moment.</p>
-{% endfor %}
+        <div class="project-meta">
+          <span>👤 {{ project.faculty.username }}</span>
+          <span>📌 {{ project.get_domain_display }}</span>
+          <span>⚡ {{ project.get_difficulty_level_display }}</span>
+        </div>
+
+        {% if project.technologies %}
+          <div class="project-tech">
+            {{ project.technologies }}
+          </div>
+        {% endif %}
+
+        <div class="project-stats">
+          <span>👨‍🎓 {{ project.students.count }}/{{ project.max_students }}</span>
+          <span>👨‍🏫 {{ project.alumni.count }} mentors</span>
+        </div>
+
+        <div class="project-actions">
+          {% if user in project.alumni.all %}
+            <span class="joined">✓ You’re mentoring</span>
+          {% else %}
+            {% if project.is_public and project.status != 'completed' %}
+              <a href="{% url 'join_project_as_alumni' project.id %}" class="join-btn">
+                Join as Mentor
+              </a>
+            {% else %}
+              <span class="closed">Closed</span>
+            {% endif %}
+          {% endif %}
+        </div>
+
+      </article>
+    {% empty %}
+      <p class="empty">No projects available right now.</p>
+    {% endfor %}
+  </div>
+
+</section>
 
 {% endblock %}

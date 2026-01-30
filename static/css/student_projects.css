@@ -1,0 +1,241 @@
+/* ===============================
+   🌌 THEME VARIABLES
+================================ */
+:root {
+    --bg-main: #0b0f1a;
+    --bg-card: rgba(18, 24, 46, 0.72);
+    --border-glass: rgba(255, 255, 255, 0.08);
+
+    --text-main: #e8ebf5;
+    --text-muted: #9aa3c7;
+
+    --accent: #7aa2ff;
+    --success: #4ade80;
+    --warning: #facc15;
+    --danger: #f87171;
+}
+
+/* ===============================
+   🌑 PAGE
+================================ */
+body {
+    background: radial-gradient(circle at top, #141a33 0%, #0b0f1a 65%);
+    color: var(--text-main);
+    font-family: "Lucida Sans", "Lucida Grande", Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+/* ===============================
+   🧠 TITLE
+================================ */
+.page-title {
+    text-align: center;
+    font-size: 2.3rem;
+    margin: 36px 0 44px;
+    color: var(--accent);
+}
+
+/* ===============================
+   🪪 PROJECT CARD
+================================ */
+.project-card {
+    width: min(94%, 820px);
+    margin: 26px auto;
+    padding: 26px;
+    background: var(--bg-card);
+    border-radius: 22px;
+    border: 1px solid var(--border-glass);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* ===============================
+   🧩 HEADER
+================================ */
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.project-header h3 {
+    font-size: 1.35rem;
+    margin: 0;
+}
+
+.subtitle {
+    font-size: 0.85rem;
+    margin-top: 4px;
+    color: var(--text-muted);
+}
+
+/* ===============================
+   🏷 BADGES
+================================ */
+.meta-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.badge {
+    padding: 6px 12px;
+    font-size: 0.7rem;
+    border-radius: 999px;
+    font-weight: 700;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* STATUS */
+.status-open {
+    color: var(--success);
+    background: rgba(74, 222, 128, 0.15);
+}
+
+.status-draft {
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.status-in_progress {
+    color: var(--warning);
+    background: rgba(250, 204, 21, 0.15);
+}
+
+.status-completed {
+    color: var(--accent);
+    background: rgba(122, 162, 255, 0.15);
+}
+
+/* DIFFICULTY */
+.difficulty {
+    color: var(--danger);
+    background: rgba(248, 113, 113, 0.15);
+}
+
+/* ===============================
+   📐 DETAILS GRID
+================================ */
+.project-details {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 18px;
+}
+
+.project-details p {
+    margin: 0;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    overflow-wrap: anywhere;
+}
+
+.project-details strong {
+    display: block;
+    font-size: 0.65rem;
+    margin-bottom: 4px;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.project-details .full-width {
+    grid-column: span 2;
+}
+
+/* ===============================
+   🔗 RESOURCES
+================================ */
+.resources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.resources a {
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    text-decoration: none;
+    color: var(--accent);
+    border: 1px solid rgba(122, 162, 255, 0.45);
+    transition: 0.25s ease;
+}
+
+.resources a:hover {
+    background: rgba(122, 162, 255, 0.15);
+}
+
+/* ===============================
+   ➖ DIVIDER
+================================ */
+hr {
+    margin: 24px 0;
+    border: none;
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(122, 162, 255, 0.35),
+        transparent
+    );
+}
+
+/* ===============================
+   🤝 ACTIONS
+================================ */
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* BUTTON */
+.join-btn {
+    padding: 10px 26px;
+    border-radius: 999px;
+    border: 1px solid rgba(122, 162, 255, 0.45);
+    background: rgba(122, 162, 255, 0.15);
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.join-btn:hover {
+    box-shadow: 0 0 18px rgba(122, 162, 255, 0.4);
+}
+
+/* STATUS LABELS */
+.status {
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status.joined {
+    color: var(--success);
+    background: rgba(74, 222, 128, 0.15);
+}
+
+.status.disabled {
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* ===============================
+   😶 EMPTY
+================================ */
+.empty {
+    text-align: center;
+    margin-top: 70px;
+    color: var(--text-muted);
+}

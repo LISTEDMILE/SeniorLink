@@ -3,13 +3,53 @@
 
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/student_dashboard.css' %}?v=2">
+<script>
+const searchInput = document.getElementById("domainSearch");
+const alumniCards = document.querySelectorAll(".alumni-card");
+
+searchInput.addEventListener("input", function () {
+    const query = searchInput.value.trim().toLowerCase();
+
+    alumniCards.forEach(card => {
+        const domains = card.dataset.domain || "";
+
+        // ✅ If input empty → show all
+        if (query === "") {
+            card.style.display = "block";
+            return;
+        }
+
+        // ✅ Split domain into array (comma / pipe / space safe)
+        const domainArray = domains
+            .split(/,|\||\//)
+            .map(d => d.trim());
+
+        // ✅ Check if query exists in any domain item
+        const match = domainArray.some(domain =>
+            domain.includes(query)
+        );
+
+        card.style.display = match ? "block" : "none";
+    });
+});
+</script>
 
 <h2 class="page-title">Find Alumni Mentors</h2>
 
-{% for alumni in alumni_profiles %}
-<div class="alumni-card">
+<input 
+    type="text" 
+    id="domainSearch"
+    placeholder="Search by domain (Web, AI, ML)"
+    class="domain-search"
+/>
 
+
+{% for alumni in alumni_profiles %}
+<div class="alumni-card"
+     data-domain="{{ alumni.alumniprofile.domain|lower }}">
+
+     
     <!-- HEADER -->
     <div class="alumni-header">
         <h3>{{ alumni.user.username }}</h3>
@@ -25,7 +65,7 @@
     <div class="alumni-details">
         <p><strong>Company:</strong> {{ alumni.alumniprofile.company_name|default:"—" }}</p>
         <p><strong>Role:</strong> {{ alumni.alumniprofile.current_role|default:"—" }}</p>
-        <p><strong>Domain:</strong> {{ alumni.alumniprofile.domain|default:"—" }}</p>
+        <p><strong> Key Domain:</strong> {{ alumni.alumniprofile.domain|default:"—" }}</p>
 
         {% if alumni.alumniprofile.experience_years %}
             <p><strong>Experience:</strong> {{ alumni.alumniprofile.experience_years }} years</p>
@@ -52,11 +92,15 @@
         {% elif alumni.request_status == 'accepted' %}
             <span class="status accepted">✅ Accepted</span>
 
+        {% elif alumni.request_status == 'declined' %}
+            <span class="status accepted">✖ Declined</span>
+
         {% else %}
             {% if alumni.alumniprofile.available_for_mentorship %}
-                <a href="{% url 'send_mentorship_request' alumni.user.id %}" class="btn">
-                    🤝 Request Mentorship
-                </a>
+               <a href="{% url 'send_mentorship_request' alumni.user.id %}" class="link">
+    🤝 Request Mentorship
+</a>
+
             {% else %}
                 <span class="status disabled">Not accepting requests</span>
             {% endif %}

@@ -219,6 +219,54 @@ textarea:focus {
 }
 
 /* =========================
+   CHECKBOX (FIXED & STYLED)
+========================= */
+
+/* Wrapper for checkbox + label */
+.profile-form .checkbox-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;   /* 👈 keep left aligned */
+    gap: 12px;
+
+    margin: 18px 0 10px;
+    padding: 10px 14px;
+
+    background: rgba(0,0,0,0.35);
+    border-radius: 14px;
+
+    box-shadow: inset 0 0 0 1px var(--line);
+}
+
+/* Reset checkbox from input styles */
+.profile-form input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+
+    margin: 0;
+    padding: 0;
+
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+
+    accent-color: var(--neon1);
+    cursor: pointer;
+}
+
+/* Label next to checkbox */
+.profile-form .checkbox-group label {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+
+    cursor: pointer;
+    user-select: none;
+}
+
+
+/* =========================
    ANIMATIONS
 ========================= */
 @keyframes bgShift {

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import JSONField
 
 
 class Profile(models.Model):
@@ -27,13 +28,15 @@ class Profile(models.Model):
         return self.user.username
 
 
+  
+
 class StudentProfile(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
 
     college_name = models.CharField(max_length=200)
     degree = models.CharField(max_length=100)
     branch = models.CharField(max_length=100)
-    year_of_study = models.IntegerField(null=True,blank=True)
+    year_of_study = models.IntegerField(null=True, blank=True)
 
     skills = models.TextField(blank=True)
     interests = models.TextField(blank=True)
@@ -41,14 +44,66 @@ class StudentProfile(models.Model):
     github = models.URLField(blank=True)
     linkedin = models.URLField(blank=True)
 
+    # ==========================
+    # CURRENT PROJECT (SNAPSHOT)
+    # ==========================
+    current_project_title = models.CharField(
+        max_length=200,
+        blank=True
+    )
+
+    current_project_domain = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    current_project_description = models.TextField(
+        blank=True
+    )
+
+    current_project_technologies = models.CharField(
+        max_length=300,
+        blank=True,
+        help_text="Comma-separated technologies"
+    )
+
+    current_project_role = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    current_project_status = models.CharField(
+        max_length=50,
+        choices=[
+            ("ongoing", "Ongoing"),
+            ("paused", "Paused"),
+            ("completed", "Completed"),
+        ],
+        default="ongoing"
+    )
+
+    current_project_start_date = models.DateField(
+        null=True,
+        blank=True
+    )
+
+    current_project_progress = models.PositiveSmallIntegerField(
+        default=0,
+        help_text="Progress percentage (0–100)"
+    )
+
     def __str__(self):
         return f"Student - {self.profile.user.username}"
-    
+
+
+
+
+
 
 class AlumniProfile(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
 
-    company_name = models.CharField(max_length=200)
+    company_name = models.CharField(null=True,max_length=200)
     current_role = models.CharField(max_length=150)
     domain = models.CharField(max_length=100)
     experience_years = models.IntegerField(null=True)
@@ -61,9 +116,18 @@ class AlumniProfile(models.Model):
 
     available_for_mentorship = models.BooleanField(default=True)
 
+    # ==========================
+    # INTERESTED DOMAINS (ARRAY)
+    # ==========================
+    interested_domains = JSONField(
+        default=list,
+        blank=True,
+        help_text="Example: ['AI', 'Web', 'Cloud']"
+    )
+
     def __str__(self):
         return f"Alumni - {self.profile.user.username}"
-    
+
 
 class FacultyProfile(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
@@ -81,8 +145,7 @@ class FacultyProfile(models.Model):
     def __str__(self):
         return f"Faculty - {self.profile.user.username}"
 
-from django.db import models
-from django.contrib.auth.models import User
+
 
 class Project(models.Model):
 
@@ -182,7 +245,7 @@ class MentorshipRequest(models.Model):
     alumni = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_requests')
     status = models.CharField(
         max_length=20,
-        choices=[('pending','Pending'), ('accepted','Accepted')],
+        choices=[('pending','Pending'), ('accepted','Accepted'), ('declined','Declined')],
         default='pending'
     )
     created_at = models.DateTimeField(auto_now_add=True)
