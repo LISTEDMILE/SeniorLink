@@ -81,9 +81,17 @@ class FacultyProfile(models.Model):
     def __str__(self):
         return f"Faculty - {self.profile.user.username}"
 
+from django.db import models
+from django.contrib.auth.models import User
+
 class Project(models.Model):
+
+    # 🔹 Basic Info
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    short_description = models.CharField(max_length=300, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+
+    # 🔹 Ownership & People
     faculty = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -99,11 +107,76 @@ class Project(models.Model):
         blank=True,
         related_name='mentored_projects'
     )
+
+    # 🔹 Project Metadata
+    domain = models.CharField(
+        max_length=100,
+        choices=[
+            ('web', 'Web Development'),
+            ('ai', 'Artificial Intelligence'),
+            ('ml', 'Machine Learning'),
+            ('iot', 'IoT'),
+            ('blockchain', 'Blockchain'),
+            ('other', 'Other'),
+        ],
+        null=True,
+        blank=True
+    )
+
+    technologies = models.CharField(
+        max_length=300,
+        help_text="Example: Django, React, PostgreSQL",
+        null=True,
+        blank=True
+    )
+
+    difficulty_level = models.CharField(
+        max_length=50,
+        choices=[
+            ('beginner', 'Beginner'),
+            ('intermediate', 'Intermediate'),
+            ('advanced', 'Advanced'),
+        ],
+        null=True,
+        blank=True
+    )
+
+    # 🔹 Timeline
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+
+    # 🔹 Status & Visibility
+    status = models.CharField(
+        max_length=50,
+        choices=[
+            ('draft', 'Draft'),
+            ('open', 'Open for Students'),
+            ('in_progress', 'In Progress'),
+            ('completed', 'Completed'),
+        ],
+        default='draft'
+    )
+
+    is_public = models.BooleanField(default=True)
+
+    # 🔹 Capacity
+    max_students = models.PositiveIntegerField(default=5)
+
+    # 🔹 Resources & Links
+    github_link = models.URLField(blank=True, null=True)
+    documentation_link = models.URLField(blank=True, null=True)
+
+    # 🔹 Ratings & Feedback
+    rating = models.FloatField(default=0.0)
+    feedback = models.TextField(blank=True, null=True)
+
+    # 🔹 Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
-    
+
 class MentorshipRequest(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_requests')
     alumni = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_requests')

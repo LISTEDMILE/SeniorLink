@@ -23,4 +23,7 @@ path('faculty/projects/', views.faculty_projects, name='faculty_projects'),
 path('logout/', views.logout_view, name='logout'),
 path('edit_profile/', views.edit_profile, name='edit_profile'),
 path('profile/<int:profile_id>/', views.view_profile, name='view_profile'),
+path('alumni/projects/', views.alumni_projects, name='alumni_projects'),
+path('alumni/projects/join/<int:project_id>/', views.join_project_as_alumni, name='join_project_as_alumni'),
+
 ]
