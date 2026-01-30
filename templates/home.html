@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home | Alumni Project Connect{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="fade-in">Alumni Project Connect</h1>
+        <p class="fade-in delay">
+            Bridging Students, Alumni & Faculty Through Real Projects
+        </p>
+
+        <div class="hero-buttons fade-in delay-2">
+            <a href="{% url 'login' %}" class="btn primary">Login</a>
+            <a href="{% url 'register' %}" class="btn secondary">Register</a>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="feature-card slide-up">
+        <h3>🎓 Students</h3>
+        <p>Join real faculty projects and get mentored by experienced alumni.</p>
+    </div>
+
+    <div class="feature-card slide-up delay">
+        <h3>👨‍🎓 Alumni</h3>
+        <p>Guide students, share experience, and mentor future professionals.</p>
+    </div>
+
+    <div class="feature-card slide-up delay-2">
+        <h3>👨‍🏫 Faculty</h3>
+        <p>Create projects, manage teams, and collaborate effectively.</p>
+    </div>
+</section>
+
+<section class="cta">
+    <h2>Build • Collaborate • Grow</h2>
+    <p>Your academic collaboration platform starts here.</p>
+</section>
+
+{% endblock %}

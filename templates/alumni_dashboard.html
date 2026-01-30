@@ -14,11 +14,22 @@
             <strong>Student:</strong> {{ req.student.username }} <br>
             <strong>Status:</strong> {{ req.status }}
         </p>
+        <a href="{% url 'view_profile' req.student.id %}">
+            View Student Profile
+        </a>+
 
         {% if req.status == 'pending' %}
             <a class="accept-link" href="{% url 'accept_mentorship' req.id %}">
                 Accept Mentorship
             </a>
+            
+            {% for req in requests %}
+    <p>
+        {{ req.student.username }}
+
+        
+    </p>
+{% endfor %}
         {% else %}
             <p class="accepted">✔ Mentorship Accepted</p>
         {% endif %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ profile.full_name|default:profile.user.username }}</h2>
+
+<p><strong>Role:</strong> {{ profile.role|title }}</p>
+<p><strong>Email:</strong> {{ profile.user.email }}</p>
+
+<hr>
+
+{% if student %}
+    <h3>🎓 Student Details</h3>
+    <p>College: {{ student.college_name }}</p>
+    <p>Degree: {{ student.degree }}</p>
+    <p>Branch: {{ student.branch }}</p>
+    <p>Skills: {{ student.skills }}</p>
+{% endif %}
+
+{% if alumni %}
+    <h3>🏢 Alumni Details</h3>
+    <p>Company: {{ alumni.company_name }}</p>
+    <p>Role: {{ alumni.current_role }}</p>
+    <p>Experience: {{ alumni.experience_years }} years</p>
+    <p>Expertise: {{ alumni.expertise }}</p>
+
+    {% if alumni.linkedin %}
+        <a href="{{ alumni.linkedin }}" target="_blank">LinkedIn</a>
+    {% endif %}
+{% endif %}
+
+{% if faculty %}
+    <h3>🏫 Faculty Details</h3>
+    <p>Department: {{ faculty.department }}</p>
+    <p>Designation: {{ faculty.designation }}</p>
+    <p>Expertise: {{ faculty.expertise }}</p>
+{% endif %}
+
+{% endblock %}
