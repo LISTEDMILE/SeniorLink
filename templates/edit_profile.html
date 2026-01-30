@@ -1,12 +1,24 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h2>Edit Profile</h2>
+<link rel="stylesheet" href="{% static 'css/edit1.css' %}">
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+<!-- TECH BACKGROUND (same as login) -->
+<div class="tech-bg"></div>
 
-    <button type="submit">Save Profile</button>
-</form>
+<div class="profile-wrapper">
+    <div class="profile-card">
+        <h2 class="profile-title">Edit Profile</h2>
+
+        <form method="post" class="profile-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" class="btn-primary">
+                Save Profile
+            </button>
+        </form>
+    </div>
+</div>
 {% endblock %}
