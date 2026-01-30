@@ -137,19 +137,37 @@ def login_view(request):
 
 
 # ---------------- STUDENT ----------------
-@role_required('student')
+# @role_required('student')
+# def student_dashboard(request):
+#     alumni_profiles = Profile.objects.filter(role='alumni')
+
+#     search = request.GET.get('search')
+#     if search:
+#         alumni_profiles = alumni_profiles.filter(
+#             user__username__icontains=search
+#         )
+
+#     return render(request, 'student_dashboard.html', {
+#         'alumni_profiles': alumni_profiles
+#     })
+@login_required
 def student_dashboard(request):
     alumni_profiles = Profile.objects.filter(role='alumni')
 
-    search = request.GET.get('search')
-    if search:
-        alumni_profiles = alumni_profiles.filter(
-            user__username__icontains=search
-        )
+    sent_requests = MentorshipRequest.objects.filter(student=request.user)
+
+    status_map = {
+        req.alumni.id: req.status
+        for req in sent_requests
+    }
+
+    for alumni in alumni_profiles:
+        alumni.request_status = status_map.get(alumni.user.id)
 
     return render(request, 'student_dashboard.html', {
         'alumni_profiles': alumni_profiles
     })
+
 
 
 @role_required('student')

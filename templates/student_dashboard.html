@@ -1,30 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Student Dashboard</h2>
+<h2>Find Alumni Mentors</h2>
 
-<form method="get">
-    <input type="text" name="search" placeholder="Search alumni">
-    <button type="submit">Search</button>
-</form>
+{% for alumni in alumni_profiles %}
+<div style="border:1px solid #ccc; padding:15px; margin-bottom:15px;">
 
-<hr>
+    <h3>{{ alumni.user.username }}</h3>
 
-<h3>Available Alumni Mentors</h3>
+    {% if alumni.alumniprofile %}
+        <p><strong>Company:</strong> {{ alumni.alumniprofile.company_name }}</p>
+        <p><strong>Role:</strong> {{ alumni.alumniprofile.current_role }}</p>
+    {% endif %}
 
-{% for profile in alumni_profiles %}
-    <div style="border:1px solid #ccc; padding:10px; margin:10px;">
-        <strong>{{ profile.user.username }}</strong><br>
-         <a href="{% url 'view_profile' profile.user.id %}">
-            View Profile →
+    <hr>
+
+    {% if alumni.request_status == 'pending' %}
+        <p style="color:orange;">⏳ Request Pending</p>
+
+    {% elif alumni.request_status == 'accepted' %}
+        <p style="color:green;">✅ Accepted</p>
+
+    {% else %}
+        <a href="{% url 'send_mentorship_request' alumni.user.id %}">
+            🤝 Request Mentorship
         </a>
+    {% endif %}
 
-        <a href="{% url 'request_mentorship' profile.user.id %}">
-            Apply for Mentorship
-        </a> 
-    </div>
-{% empty %} 
-    <p>No alumni found.</p>
+</div>
+{% empty %}
+<p>No alumni available.</p>
 {% endfor %}
 
 {% endblock %}
