@@ -1,63 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>{% block title %}Project{% endblock %}</title>
-    <style>
-        nav {
-            background-color: #2c3e50;
-            padding: 10px;
-        }
-        nav a {
-            color: white;
-            margin-right: 15px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>{% block title %}Alumni Project Connect{% endblock %}</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
+
 <body>
+<body class="{% block body_class %}{% endblock %}"></body>
+<!-- ================= HEADER ================= -->
+<header class="header">
+    <div class="logo">
+        Alumni<span>Connect</span>
+    </div>
 
-<h1>Alumni Project Connect</h1>
+    <nav class="navbar">
+        {% if user.is_authenticated %}
 
-<!-- NAVBAR START -->
-<nav>
-    {% if user.is_authenticated %}
+            {% if user.profile.role == 'student' %}
+                <a href="{% url 'student_dashboard' %}">Dashboard</a>
+                <a href="{% url 'student_projects' %}">Projects</a>
+            {% endif %}
 
-        {% if user.profile.role == 'student' %}
-            <a href="{% url 'student_dashboard' %}">Student Dashboard</a>
-            <a href="{% url 'student_projects' %}">Projects</a>
+            {% if user.profile.role == 'alumni' %}
+                <a href="{% url 'alumni_dashboard' %}">Dashboard</a>
+            {% endif %}
+
+            {% if user.profile.role == 'faculty' %}
+                <a href="{% url 'faculty_dashboard' %}">Dashboard</a>
+                <a href="{% url 'create_project' %}">Create Project</a>
+                <a href="{% url 'faculty_projects' %}">My Projects</a>
+            {% endif %}
+
+            <span class="user-info">
+                {{ user.username }}
+            </span>
+
+            <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}" class="register-btn">Register</a>
         {% endif %}
+    </nav>
+</header>
 
-        {% if user.profile.role == 'alumni' %}
-            <a href="{% url 'alumni_dashboard' %}">Alumni Dashboard</a>
-        {% endif %}
+<!-- ================= MAIN CONTENT ================= -->
+<main class="main-content fade-in">
+    {% block content %}
+    {% endblock %}
+</main>
 
-        {% if user.profile.role == 'faculty' %}
-            <a href="{% url 'faculty_dashboard' %}">Faculty Dashboard</a>
-            <a href="{% url 'create_project' %}">Create Project</a>
-            <a href="{% url 'faculty_projects' %}">My Projects</a>
-        {% endif %}
-
-        <span style="color:white; margin-left:20px;">
-            Logged in as <b>{{ user.username }}</b>
-        </span>
-
-        <a href="{% url 'logout' %}" style="float:right;">Logout</a>
-
-    {% else %}
-        <a href="{% url 'login' %}">Login</a>
-        <a href="{% url 'register' %}">Register</a>
-    {% endif %}
-</nav>
-<!-- NAVBAR END -->
-
-<hr>
-
-{% block content %}
-{% endblock %}
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <p>© 2026 Alumni Project Connect</p>
+    <p>Built with Django | Students • Alumni • Faculty</p>
+</footer>
 
 </body>
 </html>
