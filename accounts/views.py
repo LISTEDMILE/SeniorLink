@@ -43,13 +43,21 @@ def login_view(request):
             username=request.POST['username'],
             password=request.POST['password']
         )
+
         if user:
             login(request, user)
-            return redirect(f"{user.profile.role}_dashboard")
+
+            role_redirects = {
+                "student": "student_dashboard",
+                "alumni": "alumni_dashboard",
+                "faculty": "faculty_projects",  # 👈 special case
+            }
+
+            return redirect(role_redirects.get(user.profile.role))
 
         messages.error(request, "Invalid credentials")
 
-    return render(request, 'login.html')
+    return render(request, "login.html")
 
 
 @login_required
